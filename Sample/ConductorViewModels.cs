@@ -8,37 +8,34 @@ using Caliburn.Micro.BindableAppBar;
 using Microsoft.Phone.Controls;
 
 namespace CaliburnBindableAppBar {
-    public class PivotPageViewModel : Conductor<Screen>.Collection.OneActive {
 
-        public PivotPageViewModel() {
+    public class PivotPageViewModel : SampleConductorBase {}
+
+    public class PanoramaPageViewModel : SampleConductorBase {}
+
+    public class SampleConductorBase : Conductor<Screen>.Collection.OneActive {
+
+        public SampleConductorBase() {
                   
         }
 
         protected override void OnInitialize() {
             base.OnInitialize();
-
+                                 
             Items.Add(new Item1ViewModel());
             Items.Add(new Item2ViewModel() { ShowAppBar = true });
             Items.Add(new Item2ViewModel());
 
-            ActivateItem(Items[0]);            
-        }
+            ActivateItem(Items[0]);
 
-        protected override void OnViewReady(object view) {
-            base.OnViewReady(view);
-
-            // Initialize appbar            
-            AppBarConductor.AttachTo(this, view as PhoneApplicationPage);      
-        }
+            // Initialize appbar, the views have been attached by this point
+            AppBarConductor.Mixin(this);
+        }        
     }
 
     public class Item1ViewModel : Screen {
         public Item1ViewModel() {
             base.DisplayName = "appbar1";
-        }
-
-        protected override void OnViewLoaded(object view) {
-            base.OnViewLoaded(view);
         }
 
         public void RefreshData() {
@@ -60,10 +57,6 @@ namespace CaliburnBindableAppBar {
                 _showAppBar = value;
                 NotifyOfPropertyChange("ShowAppBar");
             }
-        }
-
-        protected override void OnViewLoaded(object view) {
-            base.OnViewLoaded(view);
         }
 
         public void Star() {

@@ -175,7 +175,7 @@ namespace Caliburn.Micro.BindableAppBar {
         }            
 
     }
-    
+
     [ContentProperty("Buttons")]
     public class BindableAppBar : ItemsControl, IApplicationBar {
         // ApplicationBar wrapper
@@ -194,11 +194,15 @@ namespace Caliburn.Micro.BindableAppBar {
         }
 
         void BindableApplicationBarLoaded(object sender, RoutedEventArgs e) {
+
+            // Store original BG color
+            _originalBackgroundColor = ApplicationBar.BackgroundColor;
+
             // Get the page
             var page = this.GetVisualAncestors().OfType<PhoneApplicationPage>().FirstOrDefault();
 
             // If we're not defer-loading, assign the appbar
-            if (page != null && !DeferLoad) 
+            if (page != null && !DeferLoad && IsVisible) 
                 page.ApplicationBar = ApplicationBar;
         }
 
@@ -211,6 +215,7 @@ namespace Caliburn.Micro.BindableAppBar {
             // Clear current buttons
             ApplicationBar.Buttons.Clear();
             ApplicationBar.MenuItems.Clear();
+            ApplicationBar.BackgroundColor = _originalBackgroundColor;
 
             // TODO: Use Index prop to reorder them?
             foreach (BindableAppBarButton button in Items.Where(c => c is BindableAppBarButton && ((BindableAppBarButton)c).Visibility == Visibility.Visible)) {
@@ -280,6 +285,7 @@ namespace Caliburn.Micro.BindableAppBar {
             set { ApplicationBar.IsMenuEnabled = true; }
         }
 
+        private Color _originalBackgroundColor;
         public Color BackgroundColor {
             get { return ApplicationBar.BackgroundColor; }
             set { ApplicationBar.BackgroundColor = value; }

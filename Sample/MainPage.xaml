@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cba="clr-namespace:CaliburnBindableAppBar" xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
-    xmlns:bindableAppBar="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -28,23 +28,23 @@
             <TextBlock x:Name="PageTitle" Text="tests" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <bindableAppBar:BindableAppBar x:Name="AppBar">
-            <bindableAppBar:BindableAppBarButton
+        <bab:BindableAppBar x:Name="AppBar">
+            <bab:BindableAppBarButton
                 x:Name="Add"
                 Text="{Binding AddButtonText}"
                 Visibility="{Binding ShowAddButton, Converter={StaticResource BooleanToVisibilityConverter}}"
                 IconUri="{Binding ButtonIconUri}"/>
             
-            <bindableAppBar:BindableAppBarMenuItem
+            <bab:BindableAppBarMenuItem
                 x:Name="Pin"
                 Text="{Binding PinItemText}" />
-        </bindableAppBar:BindableAppBar>
+        </bab:BindableAppBar>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">                       
             
             <StackPanel>
-                <Button x:Name="ToggleVisibility" Content="Toggle Visibility"/>
+                <Button x:Name="ToggleVisibility" Content="Toggle Button Visibility"/>
                 
                 <Button x:Name="ToggleAvailability" Content="Toggle Availability"/>
                 
@@ -53,6 +53,8 @@
                 <Button x:Name="ToggleIcon" Content="Toggle Icon"/>
                 
                 <Button x:Name="Pivot" Content="Go to Pivot"/>
+
+                <Button x:Name="Panorama" Content="Go to Panorama"/>
             </StackPanel>
             
             

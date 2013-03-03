@@ -5,22 +5,47 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliburn.Micro.BindableAppBar", "Caliburn.Micro.BindableAppBar\Caliburn.Micro.BindableAppBar.csproj", "{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{868439B1-12EE-4D99-9B12-6BD789AB95B4}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E116410-E2E5-4D09-B206-7BB4DF0B97CE}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{34FB56F2-B36C-4245-82B4-A43F06BB1AA8}.Release|x86.ActiveCfg = Release|Any CPU
 		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{4F4C27EC-A990-4DC1-B3B0-55BD4BEDC62C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

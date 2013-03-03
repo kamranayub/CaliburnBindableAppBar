@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Windows;
 using System;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 
 namespace Caliburn.Micro.BindableAppBar {
 
@@ -12,15 +16,26 @@ namespace Caliburn.Micro.BindableAppBar {
     public class AppBarConductor : IDeactivate {
         private readonly IConductActiveItem _conductor;
         private readonly PhoneApplicationPage _page;
+        private readonly Pivot _pivot;
+        private readonly Panorama _panorama;
+        private const int DefaultPanoramaWaitThreshold = 800;
+
+        /// <summary>
+        /// Default wait time for Panorama animation
+        /// </summary>
+        public int PanoramaWaitThreshold = DefaultPanoramaWaitThreshold;
 
         /// <summary>
         /// Attaches to a conductor, must occur OnViewReady of the conductor
         /// </summary>
-        /// <param name="conductor"></param>
-        /// <param name="page"></param>
-        public static void AttachTo<T>(T conductor, PhoneApplicationPage page) where T : IConductActiveItem, IDeactivate {
+        /// <param name="conductor"></param>        
+        /// <param name="panoramaWaitThreshold"></param>
+        public static void Mixin<T>(T conductor, int panoramaWaitThreshold = DefaultPanoramaWaitThreshold) where T : IConductActiveItem, IDeactivate, IViewAware {
 
-            var abc = new AppBarConductor(conductor, page);
+            var abc = new AppBarConductor(conductor, conductor.GetView() as PhoneApplicationPage);
+
+            // Assign threshold value
+            abc.PanoramaWaitThreshold = panoramaWaitThreshold;
 
             EventHandler<DeactivationEventArgs> deactivated = null;
             deactivated = (sender, args) =>
@@ -36,13 +51,50 @@ namespace Caliburn.Micro.BindableAppBar {
             _conductor = conductor;
             _page = page;
 
+            _pivot = _page.GetVisualDescendants().OfType<Pivot>().FirstOrDefault();
+            _panorama = _page.GetVisualDescendants().OfType<Panorama>().FirstOrDefault();
+
+            if (_pivot == null && _panorama == null) {
+                throw new ArgumentException("The appbar conductor must have a Pivot or Panorama to sync with.");
+            }
+
+            if (_pivot != null)
+                _pivot.LoadedPivotItem += PivotOnLoadedPivotItem;
+
+            if (_panorama != null) {
+                _panorama.SelectionChanged += PanoramaOnSelectionChanged;
+
+                // Load first appbar in Panorama after animations are complete
+                var firstViewAware = conductor.ActiveItem as IViewAware;
+
+                if (firstViewAware != null) {
+
+                    EventHandler<ViewAttachedEventArgs> attachedHandler = null;
+
+                    attachedHandler = (sender, args) =>
+                    {
+                        SyncAppBar(args.View as DependencyObject);
+
+                        firstViewAware.ViewAttached -= attachedHandler;
+                    };
+
+                    firstViewAware.ViewAttached += attachedHandler;
+                }
+            }
+
+            DeferAppBars();
+        }
+
+        private void DeferAppBars() {
             // Get available children that may have views
-            var items = conductor.GetChildren();
+            var items = _conductor.GetChildren();
 
             foreach (var item in items) {
 
                 // Ignore first view, since we want that appbar
-                if (item != conductor.ActiveItem) {
+                // If we're in a Panorama, we defer all appbars to prevent
+                // transition muckup
+                if (item != _conductor.ActiveItem || _panorama != null) {
 
                     // Disable app bar for other non-active views
                     // We have to do this, otherwise the appbars
@@ -62,7 +114,7 @@ namespace Caliburn.Micro.BindableAppBar {
                             var appbars = view.GetVisualDescendants().OfType<BindableAppBar>();
 
                             // Defer initial load of appbars
-                            foreach (var appbar in appbars) {                                
+                            foreach (var appbar in appbars) {
                                 appbar.DeferLoad = true;
                             }
 
@@ -73,26 +125,31 @@ namespace Caliburn.Micro.BindableAppBar {
                     }
                 }
             }
-
-            _conductor.ActivationProcessed += ConductorOnActivationProcessed;
         }
 
-        private void ConductorOnActivationProcessed(object sender, ActivationProcessedEventArgs e) {
-            var viewAware = e.Item as IViewAware;
+        private void PanoramaOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs) {
+            var viewAware = _panorama.SelectedItem as IViewAware;
 
             if (viewAware != null) {
-                var view = viewAware.GetView() as DependencyObject;
-
-                if (view != null) {
-                    SyncAppBar(view);
-                }
+                SyncAppBar(viewAware.GetView() as DependencyObject);
             }
         }
 
+        private void PivotOnLoadedPivotItem(object sender, PivotItemEventArgs e) {
+            SyncAppBar(e.Item);
+        }
+
+        // Flag to prevent assigning appbar too soon (causing animation to abort)
+        private bool _waiting;
 
         private void SyncAppBar(DependencyObject view) {
             if (view == null || _page == null) return;
 
+            // Reset waiting flag
+            if (_waiting)
+                _waiting = false;
+
+            // Get the last visible BindableAppBar in the tree            
             var lastVisibleAppBar = view.GetVisualDescendants()
                 .OfType<BindableAppBar>()
                 .LastOrDefault(a => a.IsVisible);
@@ -101,17 +158,60 @@ namespace Caliburn.Micro.BindableAppBar {
             // appbars doesn't make sense in a view; but one could be visible
             // and the other invisible (hot swapping!)
             if (lastVisibleAppBar != null) {
-                _page.ApplicationBar = lastVisibleAppBar.ApplicationBar;
-            }
-            else {
-                _page.ApplicationBar = null;
+
+                System.Action updateAppBar = () =>
+                {
+                    // Refresh button state/bg color if the appbar was "hidden"
+                    lastVisibleAppBar.Invalidate();
+
+                    // Assign the bar
+                    _page.ApplicationBar = lastVisibleAppBar.ApplicationBar;
+                };
+
+                // In Panorama, changing appbar visibility causes the transition to stop
+                // so we handle if there was no appbar previously shown
+                if (_page.ApplicationBar == null && _panorama != null) {
+
+                    _waiting = true;
+
+                    // Animations take ~500ms
+                    ThreadPool.QueueUserWorkItem(c =>
+                    {
+                        Thread.Sleep(PanoramaWaitThreshold);
+
+                        // Are we still waiting on this?
+                        if (_waiting)
+                            updateAppBar.OnUIThread();
+                    });
+                } else {
+
+                    // Update it
+                    updateAppBar();
+                }
+            } else {
+                // In Panorama, changing appbar visibility causes the transition to stop
+                if (_panorama != null) {
+
+                    // These properties are safe to change and do not cause the transition
+                    // to abort
+                    if (_page.ApplicationBar != null) {
+                        _page.ApplicationBar.Buttons.Clear();
+                        _page.ApplicationBar.MenuItems.Clear();
+                        _page.ApplicationBar.BackgroundColor = Color.FromArgb(1, 0, 0, 0);
+                    }
+
+                } else {
+                    _page.ApplicationBar = null;
+                }
             }
         }
 
         public void Deactivate(bool close) {
-            if (_conductor != null) {
-                _conductor.ActivationProcessed -= ConductorOnActivationProcessed;
-            }
+            if (_panorama != null)
+                _panorama.SelectionChanged -= PanoramaOnSelectionChanged;
+
+            if (_pivot != null)
+                _pivot.LoadedPivotItem -= PivotOnLoadedPivotItem;
         }
 
         public event EventHandler<DeactivationEventArgs> AttemptingDeactivation;

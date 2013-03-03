@@ -7,36 +7,37 @@ namespace CaliburnBindableAppBar {
     using Microsoft.Phone.Controls;
     using Caliburn.Micro;
 
-    public class AppBootstrapper : Phone8Bootstrapper
+    public class AppBootstrapper : PhoneBootstrapper
     {
-        PhoneContainer container;
+        PhoneContainer _container;
 
         protected override void Configure()
         {
-            container = new PhoneContainer(RootFrame);
+            _container = new PhoneContainer(RootFrame);
 
-			container.RegisterPhoneServices();
-            container.PerRequest<MainPageViewModel>();
-            container.PerRequest<PivotPageViewModel>();
-            container.PerRequest<Item1ViewModel>();
-            container.PerRequest<Item2ViewModel>();
+			_container.RegisterPhoneServices();
+            _container.PerRequest<MainPageViewModel>();
+            _container.PerRequest<PivotPageViewModel>();
+            _container.PerRequest<PanoramaPageViewModel>();
+            _container.PerRequest<Item1ViewModel>();
+            _container.PerRequest<Item2ViewModel>();
 
             AddCustomConventions();
         }
 
         protected override object GetInstance(Type service, string key)
         {
-            return container.GetInstance(service, key);
+            return _container.GetInstance(service, key);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return container.GetAllInstances(service);
+            return _container.GetAllInstances(service);
         }
 
         protected override void BuildUp(object instance)
         {
-            container.BuildUp(instance);
+            _container.BuildUp(instance);
         }
 
         static void AddCustomConventions()
@@ -44,8 +45,11 @@ namespace CaliburnBindableAppBar {
 
             // App Bar Conventions
             ConventionManager.AddElementConvention<BindableAppBarButton>(
-                BindableAppBarButton.IsEnabledProperty, "DataContext", "Click");
+                Control.IsEnabledProperty, "DataContext", "Click");
+            ConventionManager.AddElementConvention<BindableAppBarMenuItem>(
+                Control.IsEnabledProperty, "DataContext", "Click");
             
+            // Other conventions
             ConventionManager.AddElementConvention<Pivot>(Pivot.ItemsSourceProperty, "SelectedItem", "SelectionChanged").ApplyBinding =
                 (viewModelType, path, property, element, convention) => {
                     if (ConventionManager

@@ -110,6 +110,10 @@ namespace CaliburnBindableAppBar {
            _nav.UriFor<PivotPageViewModel>().Navigate();
         }
 
+        public void Panorama() {
+            _nav.UriFor<PanoramaPageViewModel>().Navigate();
+        }
+
         #endregion
     }
 }
