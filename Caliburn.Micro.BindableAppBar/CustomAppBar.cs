@@ -179,6 +179,7 @@ namespace Caliburn.Micro.BindableAppBar {
     [ContentProperty("Buttons")]
     public class BindableAppBar : ItemsControl, IApplicationBar {
         // ApplicationBar wrapper
+        private readonly static ILog Log = LogManager.GetLog(typeof(BindableAppBar));
         internal readonly ApplicationBar ApplicationBar;
         private Color _originalBackgroundColor;
 
@@ -195,6 +196,8 @@ namespace Caliburn.Micro.BindableAppBar {
         }
 
         void BindableApplicationBarLoaded(object sender, RoutedEventArgs e) {
+
+            Log.Info("Loaded: ElementName={0}, DeferLoad={1}, IsVisible={2}", Name, DeferLoad, IsVisible);
 
             // Store original BG color
             _originalBackgroundColor = ApplicationBar.BackgroundColor;
@@ -248,6 +251,8 @@ namespace Caliburn.Micro.BindableAppBar {
                 // Swapping bars?
                 if (page != null && appbar.IsVisible && page.ApplicationBar != appbar) {
                     page.ApplicationBar = appbar;
+
+                    Log.Info("Set appbar as foreground appbar");
                 }
             }
         }

@@ -82,6 +82,9 @@
     <Compile Include="Item2View.xaml.cs">
       <DependentUpon>Item2View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Item3View.xaml.cs">
+      <DependentUpon>Item3View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -95,7 +98,6 @@
     </Compile>
     <Compile Include="ConductorViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VisualTreeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -107,6 +109,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Item2View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Item3View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

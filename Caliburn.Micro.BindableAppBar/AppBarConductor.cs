@@ -14,6 +14,8 @@ namespace Caliburn.Micro.BindableAppBar {
     /// Works in sync with a given conductor and hides/shows individual view appbars, if applicable.
     /// </summary>
     public class AppBarConductor : IDeactivate {
+        private readonly static ILog Log = LogManager.GetLog(typeof (AppBarConductor));
+
         private readonly IConductActiveItem _conductor;
         private readonly PhoneApplicationPage _page;
         private readonly Pivot _pivot;
@@ -103,27 +105,42 @@ namespace Caliburn.Micro.BindableAppBar {
                     var viewAware = item as IViewAware;
 
                     if (viewAware != null) {
-                        EventHandler<ViewAttachedEventArgs> attachedHandler = null;
 
-                        attachedHandler = (sender, args) =>
-                        {
-                            var view = args.View as DependencyObject;
-                            if (view == null) return;
+                        var view = viewAware.GetView() as DependencyObject;
 
-                            // Get all applicable appbars
-                            var appbars = view.GetVisualDescendants().OfType<BindableAppBar>();
+                        if (view != null) {
+                            DeferAppBars(view);
+                        }
+                        else {
 
-                            // Defer initial load of appbars
-                            foreach (var appbar in appbars) {
-                                appbar.DeferLoad = true;
-                            }
+                            EventHandler<ViewAttachedEventArgs> attachedHandler = null;
 
-                            viewAware.ViewAttached -= attachedHandler;
-                        };
+                            attachedHandler = (sender, args) =>
+                                              {
+                                                  DeferAppBars(args.View as DependencyObject);
 
-                        viewAware.ViewAttached += attachedHandler;
+                                                  viewAware.ViewAttached -= attachedHandler;
+                                              };
+
+                            viewAware.ViewAttached += attachedHandler;
+                        }
                     }
                 }
+            }
+        }
+
+        private void DeferAppBars(DependencyObject view) {
+            
+            if (view == null) return;
+
+            // Get all applicable appbars
+            var appbars = view.GetVisualDescendants().OfType<BindableAppBar>();
+
+            // Defer initial load of appbars
+            foreach (var appbar in appbars) {
+                appbar.DeferLoad = true;
+
+                Log.Info("Marked appbar as deferred, ElementName=", appbar.Name);
             }
         }
 
@@ -168,6 +185,7 @@ namespace Caliburn.Micro.BindableAppBar {
                     _page.ApplicationBar = lastVisibleAppBar.ApplicationBar;
                 };
 
+
                 // In Panorama, changing appbar visibility causes the transition to stop
                 // so we handle if there was no appbar previously shown
                 if (_page.ApplicationBar == null && _panorama != null) {
@@ -187,8 +205,11 @@ namespace Caliburn.Micro.BindableAppBar {
 
                     // Update it
                     updateAppBar();
+
                 }
+
             } else {
+
                 // In Panorama, changing appbar visibility causes the transition to stop
                 if (_panorama != null) {
 
@@ -201,8 +222,11 @@ namespace Caliburn.Micro.BindableAppBar {
                     }
 
                 } else {
+
                     _page.ApplicationBar = null;
+
                 }
+
             }
         }
 

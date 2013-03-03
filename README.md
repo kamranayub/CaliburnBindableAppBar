@@ -1,15 +1,30 @@
 # Caliburn Bindable AppBar
 
 This is a small extension to Caliburn Micro (until it's in Caliburn.Micro proper? :)) 
-that adds a bindable appbar, with full support for Pivot and Panorama conductors.
+that adds a bindable appbar, with full support for Pivot- and Panorama-conducted views.
+
+## Changelog
+
+* 1.0.2
+	- Fix issue with WP8 when using swappable bars + Pivot
+
+* 1.0.1
+	- Fix issue with swappable bars
+
+* 1.0.0
+	- Initial release
 
 ## Features
 
-* Full message functionality
+* `BindableAppBar`, `BindableAppBarButton`, and `BindableAppBarMenuItem` 
+  are all full `DependencyObjects` so they can support full binding capabilities
+* Full Caliburn message functionality (`cal:Message.Attach`)
 * Bind icons
 * Bind text
 * Bind bar, button, and menu item visibility
 * Support for automatic `Click` convention
+* "Hot Swappable" app bars (multiple appbars per view with visibility bindings)
+* `AppBarConductor` fully syncs with Panorama and Pivot controls, so you can have multiple appbar configurations
 
 ## Known Issues
 

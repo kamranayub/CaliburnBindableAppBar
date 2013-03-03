@@ -14,7 +14,7 @@
     <Grid x:Name="LayoutRoot" Margin="{StaticResource PhoneMargin}">
         <TextBlock>AppBar2</TextBlock>
 
-        <bindableAppBar:BindableAppBar x:Name="AppBar2" IsVisible="{Binding ShowAppBar}">
+        <bindableAppBar:BindableAppBar x:Name="ItemView2_AppBar" IsVisible="{Binding ShowAppBar}">
             <bindableAppBar:BindableAppBarButton
                             x:Name="Star"
                             Text="Star"                            

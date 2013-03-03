@@ -15,16 +15,13 @@ namespace CaliburnBindableAppBar {
 
     public class SampleConductorBase : Conductor<Screen>.Collection.OneActive {
 
-        public SampleConductorBase() {
-                  
-        }
-
         protected override void OnInitialize() {
             base.OnInitialize();
                                  
             Items.Add(new Item1ViewModel());
-            Items.Add(new Item2ViewModel() { ShowAppBar = true });
-            Items.Add(new Item2ViewModel());
+            Items.Add(new Item3ViewModel());
+            Items.Add(new Item2ViewModel() { ShowAppBar = true });            
+            Items.Add(new Item2ViewModel());            
 
             ActivateItem(Items[0]);
 
@@ -34,12 +31,27 @@ namespace CaliburnBindableAppBar {
     }
 
     public class Item1ViewModel : Screen {
+        private bool _showAppBar2;
+
         public Item1ViewModel() {
             base.DisplayName = "appbar1";
         }
 
         public void RefreshData() {
             MessageBox.Show("Refresh");
+        }
+
+        public void Swap() {
+            ShowAppBar2 = !ShowAppBar2;
+        }
+
+        public bool ShowAppBar2 {
+            get { return _showAppBar2; }
+            set {
+                if (value.Equals(_showAppBar2)) return;
+                _showAppBar2 = value;
+                NotifyOfPropertyChange("ShowAppBar2");
+            }
         }
     }
 
@@ -61,6 +73,12 @@ namespace CaliburnBindableAppBar {
 
         public void Star() {
             MessageBox.Show("Star");
+        }
+    }
+
+    public class Item3ViewModel : Screen {
+        public Item3ViewModel() {
+            base.DisplayName = "appbar3";
         }
     }
 }

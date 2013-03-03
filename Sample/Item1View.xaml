@@ -14,13 +14,22 @@
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot" Margin="{StaticResource PhoneMargin}">
+        <StackPanel>
         <TextBlock>AppBar1</TextBlock>
-        <bindableAppBar:BindableAppBar x:Name="AppBar1">
+        <Button x:Name="Swap" Content="Swap"/>
+        <bindableAppBar:BindableAppBar x:Name="ItemView1_AppBar1"  IsVisible="{Binding ShowAppBar2, Converter={StaticResource NotBooleanConverter}}">
             <bindableAppBar:BindableAppBarButton
                             x:Name="RefreshData"
                             Text="Refresh"                            
                             IconUri="/Icons/ApplicationBar.Refresh.png"/>
         </bindableAppBar:BindableAppBar>
 
+        <bindableAppBar:BindableAppBar x:Name="ItemView1_AppBar2" IsVisible="{Binding ShowAppBar2}">
+            <bindableAppBar:BindableAppBarButton
+                            x:Name="Pin"
+                            Text="Unpin"                            
+                            IconUri="/Icons/ApplicationBar.Pin.Remove.png"/>
+        </bindableAppBar:BindableAppBar>
+        </StackPanel>
     </Grid>
 </UserControl>

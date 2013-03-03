@@ -9,6 +9,7 @@
     <Application.Resources>
         <local:AppBootstrapper x:Key="bootstrapper" />
         <cal:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <local:NotBooleanConverter x:Key="NotBooleanConverter" />
     </Application.Resources>
 
 </Application>
