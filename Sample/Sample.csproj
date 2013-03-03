@@ -86,6 +86,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPageViewModel.cs" />
+    <Compile Include="NotBooleanConverter.cs" />
     <Compile Include="PanoramaPage.xaml.cs">
       <DependentUpon>PanoramaPage.xaml</DependentUpon>
     </Compile>

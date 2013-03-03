@@ -95,6 +95,8 @@ namespace CaliburnBindableAppBar {
         }
 
         private bool _pinned;
+        private bool _appBar2IsVisible;
+
         public void Pin() {
             if (!_pinned) {
                 _pinned = true;
@@ -112,6 +114,19 @@ namespace CaliburnBindableAppBar {
 
         public void Panorama() {
             _nav.UriFor<PanoramaPageViewModel>().Navigate();
+        }
+
+        public void Swap() {
+            AppBar2IsVisible = !AppBar2IsVisible;
+        }
+
+        public bool AppBar2IsVisible {
+            get { return _appBar2IsVisible; }
+            set {
+                if (value.Equals(_appBar2IsVisible)) return;
+                _appBar2IsVisible = value;
+                NotifyOfPropertyChange("AppBar2IsVisible");
+            }
         }
 
         #endregion

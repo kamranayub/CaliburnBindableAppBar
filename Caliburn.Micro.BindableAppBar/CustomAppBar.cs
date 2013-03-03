@@ -180,6 +180,7 @@ namespace Caliburn.Micro.BindableAppBar {
     public class BindableAppBar : ItemsControl, IApplicationBar {
         // ApplicationBar wrapper
         internal readonly ApplicationBar ApplicationBar;
+        private Color _originalBackgroundColor;
 
         public BindableAppBar() {
             ApplicationBar = new ApplicationBar();
@@ -202,7 +203,7 @@ namespace Caliburn.Micro.BindableAppBar {
             var page = this.GetVisualAncestors().OfType<PhoneApplicationPage>().FirstOrDefault();
 
             // If we're not defer-loading, assign the appbar
-            if (page != null && !DeferLoad && IsVisible) 
+            if (page != null && !DeferLoad && IsVisible)
                 page.ApplicationBar = ApplicationBar;
         }
 
@@ -238,7 +239,16 @@ namespace Caliburn.Micro.BindableAppBar {
 
         private static void OnVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             if (e.NewValue != e.OldValue) {
-                ((BindableAppBar)d).ApplicationBar.IsVisible = (bool)e.NewValue;
+                var appbar = ((BindableAppBar)d).ApplicationBar;
+                
+                appbar.IsVisible = (bool)e.NewValue;
+
+                var page = d.GetVisualAncestors().OfType<PhoneApplicationPage>().FirstOrDefault();
+
+                // Swapping bars?
+                if (page != null && appbar.IsVisible && page.ApplicationBar != appbar) {
+                    page.ApplicationBar = appbar;
+                }
             }
         }
 
@@ -285,7 +295,8 @@ namespace Caliburn.Micro.BindableAppBar {
             set { ApplicationBar.IsMenuEnabled = true; }
         }
 
-        private Color _originalBackgroundColor;
+        
+
         public Color BackgroundColor {
             get { return ApplicationBar.BackgroundColor; }
             set { ApplicationBar.BackgroundColor = value; }

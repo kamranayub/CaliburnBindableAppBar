@@ -16,6 +16,9 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
+    <phone:PhoneApplicationPage.Resources>
+        <cba:NotBooleanConverter x:Key="NotBooleanConverter" />
+    </phone:PhoneApplicationPage.Resources>
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -28,7 +31,14 @@
             <TextBlock x:Name="PageTitle" Text="tests" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <bab:BindableAppBar x:Name="AppBar">
+        <bab:BindableAppBar x:Name="AppBar2" IsVisible="{Binding AppBar2IsVisible}">
+            <bab:BindableAppBarButton
+                x:Name="Star"
+                Text="Star"                
+                IconUri="/Icons/ApplicationBar.Star.Add.png"/>
+        </bab:BindableAppBar>
+        
+        <bab:BindableAppBar x:Name="AppBar" IsVisible="{Binding AppBar2IsVisible, Converter={StaticResource NotBooleanConverter}}">
             <bab:BindableAppBarButton
                 x:Name="Add"
                 Text="{Binding AddButtonText}"
@@ -40,6 +50,8 @@
                 Text="{Binding PinItemText}" />
         </bab:BindableAppBar>
 
+        
+
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">                       
             
@@ -49,6 +61,8 @@
                 <Button x:Name="ToggleAvailability" Content="Toggle Availability"/>
                 
                 <Button x:Name="ChangeButtonText" Content="Change Add Text"/>
+                
+                <Button x:Name="Swap" Content="Swap App Bars"/>
                 
                 <Button x:Name="ToggleIcon" Content="Toggle Icon"/>
                 
