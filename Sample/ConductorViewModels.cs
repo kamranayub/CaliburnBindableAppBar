@@ -23,11 +23,14 @@ namespace CaliburnBindableAppBar {
             Items.Add(new Item2ViewModel() { ShowAppBar = true });            
             Items.Add(new Item2ViewModel());            
 
-            ActivateItem(Items[0]);
+            ActivateItem(Items[0]);            
+        }
 
+        protected override void OnActivate()
+        {
             // Initialize appbar, the views have been attached by this point
             AppBarConductor.Mixin(this);
-        }        
+        }
     }
 
     public class Item1ViewModel : Screen {
