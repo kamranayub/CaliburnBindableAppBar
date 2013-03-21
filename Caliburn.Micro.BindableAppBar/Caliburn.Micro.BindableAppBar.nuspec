@@ -10,7 +10,7 @@
         <description>$description$</description>
         <copyright>Copyright ©  2013</copyright>
       <releaseNotes>
-        Fixed issue on WP8 with visible/invisible + swappable appbars in Pivot view
+        Fix setting app bar button visibility in XAML (#3)
       </releaseNotes>
     </metadata>
     <files>

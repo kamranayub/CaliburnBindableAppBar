@@ -72,7 +72,9 @@
     <Compile Include="VisualTreeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Caliburn.Micro.BindableAppBar.nuspec" />
+    <None Include="Caliburn.Micro.BindableAppBar.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
