@@ -75,7 +75,7 @@ namespace Caliburn.Micro.BindableAppBar {
                 var button = ((BindableAppBarButton)d);
                 BindableAppBar bar = button.Parent as BindableAppBar;
 
-                bar.Invalidate();
+                if (bar != null) bar.Invalidate();
             }
         }
 
