@@ -5,6 +5,13 @@ that adds a bindable appbar, with full support for Pivot- and Panorama-conducted
 
 ## Changelog
 
+* 1.0.4
+	- Support PhoneApplicationPage as Pivot items (#8) 
+	- Add `Invalidated` event to make handling theming easier
+	
+* 1.0.3
+	- Check if parent is null before invalidating appbar (#3)
+	
 * 1.0.2
 	- Fix issue with WP8 when using swappable bars + Pivot
 
@@ -30,6 +37,8 @@ that adds a bindable appbar, with full support for Pivot- and Panorama-conducted
 
 * The Panorama control aborts transitions when you change the ApplicationBar's visibility (`null`, `Opacity = 0`, etc.)
   so to workaround it, there's a small background sleep of a configurable wait time (`PanoramaWaitThreshold`)
+
+* Panorama is weird on Windows Phone 8 and the BAB doesn't play nice with it.
 
 ## Installation
 
