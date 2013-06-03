@@ -10,7 +10,7 @@
         <description>$description$</description>
         <copyright>Copyright ©  2013</copyright>
       <releaseNotes>
-        Fix setting app bar button visibility in XAML (#3)
+        Support Pivot items being PhoneApplicationPages (#8)
       </releaseNotes>
     </metadata>
     <files>

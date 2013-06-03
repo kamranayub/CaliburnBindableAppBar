@@ -195,6 +195,11 @@ namespace Caliburn.Micro.BindableAppBar {
                 StateChanged(this, e);
         }
 
+        protected virtual void OnInvalidated() {
+            if (Invalidated != null) 
+                Invalidated(this, EventArgs.Empty);
+        }
+
         void BindableApplicationBarLoaded(object sender, RoutedEventArgs e) {
 
             Log.Info("Loaded: ElementName={0}, DeferLoad={1}, IsVisible={2}", Name, DeferLoad, IsVisible);
@@ -203,7 +208,7 @@ namespace Caliburn.Micro.BindableAppBar {
             _originalBackgroundColor = ApplicationBar.BackgroundColor;
 
             // Get the page
-            var page = this.GetVisualAncestors().OfType<PhoneApplicationPage>().FirstOrDefault();
+            var page = this.GetVisualAncestors().OfType<PhoneApplicationPage>().LastOrDefault();
 
             // If we're not defer-loading, assign the appbar
             if (page != null && !DeferLoad && IsVisible)
@@ -228,6 +233,8 @@ namespace Caliburn.Micro.BindableAppBar {
             foreach (BindableAppBarMenuItem button in Items.Where(c => c is BindableAppBarMenuItem && ((BindableAppBarMenuItem)c).Visibility == Visibility.Visible)) {
                 ApplicationBar.MenuItems.Add(button.MenuItem);
             }
+
+            OnInvalidated();
         }
 
         #region IsVisible DependencyProperty
@@ -322,5 +329,6 @@ namespace Caliburn.Micro.BindableAppBar {
         }
 
         public event EventHandler<ApplicationBarStateChangedEventArgs> StateChanged;
+        public event EventHandler<EventArgs> Invalidated;        
     }
 }
