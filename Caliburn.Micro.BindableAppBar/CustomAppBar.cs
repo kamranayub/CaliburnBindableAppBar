@@ -224,12 +224,10 @@ namespace Caliburn.Micro.BindableAppBar {
             // Clear current buttons
             ApplicationBar.Buttons.Clear();
             ApplicationBar.MenuItems.Clear();
-#if WP8
+
             ApplicationBar.BackgroundColor = _selectedBackgroundColor;
             ApplicationBar.ForegroundColor = _selectedForegroundColor;
-#else 
-            ApplicationBar.BackgroundColor = _originalBackgroundColor;
-#endif
+
 
             // TODO: Use Index prop to reorder them?
             foreach (BindableAppBarButton button in Items.Where(c => c is BindableAppBarButton && ((BindableAppBarButton)c).Visibility == Visibility.Visible)) {
@@ -342,9 +340,9 @@ namespace Caliburn.Micro.BindableAppBar {
 
         public event EventHandler<ApplicationBarStateChangedEventArgs> StateChanged;
         public event EventHandler<EventArgs> Invalidated;
-#if WP8
+
         private static Color _selectedBackgroundColor;
         private static Color _selectedForegroundColor;
-#endif
+
     }
 }
