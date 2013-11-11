@@ -224,7 +224,10 @@ namespace Caliburn.Micro.BindableAppBar {
             // Clear current buttons
             ApplicationBar.Buttons.Clear();
             ApplicationBar.MenuItems.Clear();
-            ApplicationBar.BackgroundColor = _originalBackgroundColor;
+
+            ApplicationBar.BackgroundColor = _selectedBackgroundColor;
+            ApplicationBar.ForegroundColor = _selectedForegroundColor;
+
 
             // TODO: Use Index prop to reorder them?
             foreach (BindableAppBarButton button in Items.Where(c => c is BindableAppBarButton && ((BindableAppBarButton)c).Visibility == Visibility.Visible)) {
@@ -311,12 +314,19 @@ namespace Caliburn.Micro.BindableAppBar {
 
         public Color BackgroundColor {
             get { return ApplicationBar.BackgroundColor; }
-            set { ApplicationBar.BackgroundColor = value; }
+            set { 
+                ApplicationBar.BackgroundColor = value;
+                _selectedBackgroundColor = value;
+            }
         }
 
         public Color ForegroundColor {
             get { return ApplicationBar.ForegroundColor; }
-            set { ApplicationBar.ForegroundColor = value; }
+            set
+            {
+                ApplicationBar.ForegroundColor = value;
+                _selectedForegroundColor = value;
+            }
         }
 
         public IList Buttons {
@@ -329,6 +339,10 @@ namespace Caliburn.Micro.BindableAppBar {
         }
 
         public event EventHandler<ApplicationBarStateChangedEventArgs> StateChanged;
-        public event EventHandler<EventArgs> Invalidated;        
+        public event EventHandler<EventArgs> Invalidated;
+
+        private static Color _selectedBackgroundColor;
+        private static Color _selectedForegroundColor;
+
     }
 }
