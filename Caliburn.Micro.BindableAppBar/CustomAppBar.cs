@@ -225,7 +225,8 @@ namespace Caliburn.Micro.BindableAppBar {
             ApplicationBar.Buttons.Clear();
             ApplicationBar.MenuItems.Clear();
 #if WP8
-            ApplicationBar.BackgroundColor = _selectedColor;
+            ApplicationBar.BackgroundColor = _selectedBackgroundColor;
+            ApplicationBar.ForegroundColor = _selectedForegroundColor;
 #else 
             ApplicationBar.BackgroundColor = _originalBackgroundColor;
 #endif
@@ -317,13 +318,17 @@ namespace Caliburn.Micro.BindableAppBar {
             get { return ApplicationBar.BackgroundColor; }
             set { 
                 ApplicationBar.BackgroundColor = value;
-                _selectedColor = value;
+                _selectedBackgroundColor = value;
             }
         }
 
         public Color ForegroundColor {
             get { return ApplicationBar.ForegroundColor; }
-            set { ApplicationBar.ForegroundColor = value; }
+            set
+            {
+                ApplicationBar.ForegroundColor = value;
+                _selectedForegroundColor = value;
+            }
         }
 
         public IList Buttons {
@@ -338,7 +343,8 @@ namespace Caliburn.Micro.BindableAppBar {
         public event EventHandler<ApplicationBarStateChangedEventArgs> StateChanged;
         public event EventHandler<EventArgs> Invalidated;
 #if WP8
-        private static Color _selectedColor;
+        private static Color _selectedBackgroundColor;
+        private static Color _selectedForegroundColor;
 #endif
     }
 }
