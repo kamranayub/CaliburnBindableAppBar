@@ -3,7 +3,7 @@
 This is a small extension to Caliburn Micro (until it's in Caliburn.Micro proper? :)) 
 that adds a bindable appbar, with full support for Pivot- and Panorama-conducted views.
 
-Licensed under the [MIT license](License.md).
+Licensed under the [MIT license](LICENSE.md).
 
 ## Changelog
 
