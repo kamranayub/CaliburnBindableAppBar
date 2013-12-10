@@ -17,7 +17,7 @@
         <StackPanel>
         <TextBlock>AppBar1</TextBlock>
         <Button x:Name="Swap" Content="Swap"/>
-        <bindableAppBar:BindableAppBar x:Name="ItemView1_AppBar1"  IsVisible="{Binding ShowAppBar2, Converter={StaticResource NotBooleanConverter}}">
+        <bindableAppBar:BindableAppBar x:Name="ItemView1_AppBar1"  IsVisible="{Binding ShowAppBar2, Converter={StaticResource NotBooleanConverter}}" BackgroundColor="Red">
             <bindableAppBar:BindableAppBarButton
                             x:Name="RefreshData"
                             Text="Refresh"                            

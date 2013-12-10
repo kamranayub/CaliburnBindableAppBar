@@ -182,6 +182,8 @@ namespace Caliburn.Micro.BindableAppBar {
         private readonly static ILog Log = LogManager.GetLog(typeof(BindableAppBar));
         internal readonly ApplicationBar ApplicationBar;
         private Color _originalBackgroundColor;
+        private Color _selectedBackgroundColor;
+        private Color _selectedForegroundColor;
 
         public BindableAppBar() {
             ApplicationBar = new ApplicationBar();
@@ -207,6 +209,9 @@ namespace Caliburn.Micro.BindableAppBar {
             // Store original BG color
             _originalBackgroundColor = ApplicationBar.BackgroundColor;
 
+            // Set original appbar color on load
+            ApplicationBar.BackgroundColor = _originalBackgroundColor;
+
             // Get the page
             var page = this.GetVisualAncestors().OfType<PhoneApplicationPage>().LastOrDefault();
 
@@ -227,7 +232,6 @@ namespace Caliburn.Micro.BindableAppBar {
 
             ApplicationBar.BackgroundColor = _selectedBackgroundColor;
             ApplicationBar.ForegroundColor = _selectedForegroundColor;
-
 
             // TODO: Use Index prop to reorder them?
             foreach (BindableAppBarButton button in Items.Where(c => c is BindableAppBarButton && ((BindableAppBarButton)c).Visibility == Visibility.Visible)) {
@@ -309,9 +313,7 @@ namespace Caliburn.Micro.BindableAppBar {
             get { return ApplicationBar.IsMenuEnabled; }
             set { ApplicationBar.IsMenuEnabled = true; }
         }
-
-        
-
+       
         public Color BackgroundColor {
             get { return ApplicationBar.BackgroundColor; }
             set { 
@@ -339,10 +341,6 @@ namespace Caliburn.Micro.BindableAppBar {
         }
 
         public event EventHandler<ApplicationBarStateChangedEventArgs> StateChanged;
-        public event EventHandler<EventArgs> Invalidated;
-
-        private static Color _selectedBackgroundColor;
-        private static Color _selectedForegroundColor;
-
+        public event EventHandler<EventArgs> Invalidated;        
     }
 }
