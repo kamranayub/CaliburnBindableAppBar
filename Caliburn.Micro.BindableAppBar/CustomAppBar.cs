@@ -32,7 +32,7 @@ namespace Caliburn.Micro.BindableAppBar {
                     btn.Button.IconUri = uri;
                 }
                 else if (e.NewValue != null) {
-                    btn.Button.IconUri = new Uri(e.NewValue.ToString(), UriKind.RelativeOrAbsolute);
+                    btn.Button.IconUri = new Uri(e.NewValue.ToString(), UriKind.Relative);
                 }
                 else {
                     btn.Button.IconUri = null;
@@ -88,7 +88,7 @@ namespace Caliburn.Micro.BindableAppBar {
         public BindableAppBarButton() {
             Button = new AppBarButton();
             Button.Text = "Text";
-            Button.IconUri = new Uri("/", UriKind.RelativeOrAbsolute);
+            Button.IconUri = new Uri("/", UriKind.Relative);
             Button.Click += AppBarButtonClick;
 
             // Handle change event because Caliburn calls base Control.IsEnabled,
