@@ -10,7 +10,7 @@
         <description>$description$</description>
         <copyright>Copyright ©  2013</copyright>
       <releaseNotes>
-        Support Pivot items being PhoneApplicationPages (#8)
+        Fix BackgroundColor (#10)
       </releaseNotes>
     </metadata>
     <files>
