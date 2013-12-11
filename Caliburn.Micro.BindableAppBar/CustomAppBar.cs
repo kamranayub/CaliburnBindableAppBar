@@ -25,6 +25,9 @@ namespace Caliburn.Micro.BindableAppBar {
             DependencyProperty.RegisterAttached("IconUri", typeof(Uri), typeof(BindableAppBarButton), new PropertyMetadata(OnIconUriChanged));
 
         private static void OnIconUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            // Disable in designer
+            if (Execute.InDesignMode) return;
+            
             if (e.NewValue != e.OldValue) {
                 var btn = ((BindableAppBarButton) d);
                 var uri = e.NewValue as Uri;
