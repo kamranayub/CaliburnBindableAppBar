@@ -7,6 +7,12 @@ Licensed under the [MIT license](LICENSE.md).
 
 ## Changelog
 
+* 1.0.5
+	- Fix issue with background/foreground color (#13)
+	- Fix sample WP80 issue with pivot and navigation (#9)
+	- Update to Caliburn.Micro 1.5.2
+	- Fix exceptions being thrown in design-time
+
 * 1.0.4
 	- Support PhoneApplicationPage as Pivot items (#8) 
 	- Add `Invalidated` event to make handling theming easier
