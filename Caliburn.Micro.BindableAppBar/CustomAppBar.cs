@@ -192,6 +192,9 @@ namespace Caliburn.Micro.BindableAppBar {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.StateChanged += ApplicationBarStateChanged;
 
+            // Set default value of dependency property to default value of internal app bar's property
+            ForegroundColor = ApplicationBar.ForegroundColor;
+
             Loaded += BindableApplicationBarLoaded;
         }
 
@@ -330,6 +333,28 @@ namespace Caliburn.Micro.BindableAppBar {
 
         #endregion
 
+        #region ForegroundColor DependencyProperty
+
+        public Color ForegroundColor
+        {
+            get { return (Color)GetValue(ForegroundColorProperty); }
+            set { SetValue(ForegroundColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty ForegroundColorProperty = 
+            DependencyProperty.Register("ForegroundColor", typeof(Color), typeof(BindableAppBar), new PropertyMetadata(ForegroundColorChanged));
+
+        private static void ForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BindableAppBar bab = (BindableAppBar) d;
+            Color value = (Color) e.NewValue;
+
+            bab.ApplicationBar.ForegroundColor = value;
+            bab._selectedForegroundColor = value;
+        }
+
+        #endregion
+
         /// <summary>
         /// Whether or not to defer loading, e.g. during Pivot/Panorama where there could be multiple appbars declared
         /// </summary>
@@ -348,15 +373,6 @@ namespace Caliburn.Micro.BindableAppBar {
             set { 
                 ApplicationBar.BackgroundColor = value;
                 _selectedBackgroundColor = value;
-            }
-        }
-
-        public Color ForegroundColor {
-            get { return ApplicationBar.ForegroundColor; }
-            set
-            {
-                ApplicationBar.ForegroundColor = value;
-                _selectedForegroundColor = value;
             }
         }
 
