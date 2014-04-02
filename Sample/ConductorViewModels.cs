@@ -22,6 +22,7 @@ namespace CaliburnBindableAppBar {
             Items.Add(new Item3ViewModel());
             Items.Add(new Item2ViewModel() { ShowAppBar = true });            
             Items.Add(new Item2ViewModel());            
+            Items.Add(new Item4ViewModel());
 
             ActivateItem(Items[0]);
         }
@@ -83,6 +84,57 @@ namespace CaliburnBindableAppBar {
     public class Item3ViewModel : Screen {
         public Item3ViewModel() {
             base.DisplayName = "appbar3";
+        }
+    }
+
+    public class Item4ViewModel : Screen
+    {
+        private double _opacity = 1.0;
+        public double Opacity
+        {
+            get { return _opacity; }
+            set
+            {
+                _opacity = value;
+                NotifyOfPropertyChange(() => Opacity);
+            }
+        }
+
+        private bool _isMenuEnabled;
+        public bool IsMenuEnabled
+        {
+            get { return _isMenuEnabled; }
+            set
+            {
+                _isMenuEnabled = value;
+                NotifyOfPropertyChange(() => IsMenuEnabled);
+            }
+        }
+
+        public Item4ViewModel() 
+        {
+            base.DisplayName = "appbar4";
+        }
+
+        public void ChangeMenuState()
+        {
+            IsMenuEnabled = !IsMenuEnabled;
+        }
+
+        public void IncreaseOpacity()
+        {
+            if (Opacity < 1.0)
+            {
+                Opacity += 0.1;
+            }
+        }
+
+        public void DecreaseOpacity()
+        {
+            if (Opacity > 0.0)
+            {
+                Opacity -= 0.1;
+            }
         }
     }
 }

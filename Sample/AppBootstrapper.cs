@@ -29,6 +29,7 @@ namespace CaliburnBindableAppBar {
             _container.PerRequest<Item1ViewModel>();
             _container.PerRequest<Item2ViewModel>();
             _container.PerRequest<Item3ViewModel>();
+		    _container.PerRequest<Item4ViewModel>();
 
 			AddCustomConventions();
 
