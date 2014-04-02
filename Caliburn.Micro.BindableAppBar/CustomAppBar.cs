@@ -294,6 +294,24 @@ namespace Caliburn.Micro.BindableAppBar {
 
         #endregion
 
+        #region IsMenuEnabled DependencyProperty
+
+        public bool IsMenuEnabled
+        {
+            get { return (bool)GetValue(IsMenuEnabledProperty); }
+            set { SetValue(IsMenuEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsMenuEnabledProperty =
+            DependencyProperty.Register("IsMenuEnabled", typeof(bool), typeof(BindableAppBar), new PropertyMetadata(true, IsMenuEnabledChanged));
+
+        private static void IsMenuEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((BindableAppBar)d).ApplicationBar.IsMenuEnabled = (bool)e.NewValue;
+        }
+
+        #endregion
+
         /// <summary>
         /// Whether or not to defer loading, e.g. during Pivot/Panorama where there could be multiple appbars declared
         /// </summary>
@@ -310,11 +328,6 @@ namespace Caliburn.Micro.BindableAppBar {
         public double BarOpacity {
             get { return ApplicationBar.Opacity; }
             set { ApplicationBar.Opacity = value; }
-        }
-
-        public bool IsMenuEnabled {
-            get { return ApplicationBar.IsMenuEnabled; }
-            set { ApplicationBar.IsMenuEnabled = true; }
         }
        
         public Color BackgroundColor {
