@@ -193,6 +193,7 @@ namespace Caliburn.Micro.BindableAppBar {
             ApplicationBar.StateChanged += ApplicationBarStateChanged;
 
             // Set default value of dependency property to default value of internal app bar's property
+            BackgroundColor = ApplicationBar.BackgroundColor;
             ForegroundColor = ApplicationBar.ForegroundColor;
 
             Loaded += BindableApplicationBarLoaded;
@@ -333,6 +334,28 @@ namespace Caliburn.Micro.BindableAppBar {
 
         #endregion
 
+        #region BackgroundColor DependencyProperty
+
+        public Color BackgroundColor
+        {
+            get { return (Color)GetValue(BackgroundColorProperty); }
+            set { SetValue(BackgroundColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty BackgroundColorProperty = 
+            DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(BindableAppBar), new PropertyMetadata(BackgroundColorChanged));
+
+        private static void BackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BindableAppBar bab = (BindableAppBar)d;
+            Color value = (Color)e.NewValue;
+
+            bab.ApplicationBar.BackgroundColor = value;
+            bab._selectedBackgroundColor = value;
+        }
+
+        #endregion
+
         #region ForegroundColor DependencyProperty
 
         public Color ForegroundColor
@@ -366,14 +389,6 @@ namespace Caliburn.Micro.BindableAppBar {
 
         public double MiniSize {
             get { return ApplicationBar.MiniSize; }
-        }
-       
-        public Color BackgroundColor {
-            get { return ApplicationBar.BackgroundColor; }
-            set { 
-                ApplicationBar.BackgroundColor = value;
-                _selectedBackgroundColor = value;
-            }
         }
 
         public IList Buttons {
