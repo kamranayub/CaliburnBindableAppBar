@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="..\Sample\App.xaml.cs">
       <Link>App.xaml.cs</Link>
+	  <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\Sample\AppBootstrapper.cs">
       <Link>AppBootstrapper.cs</Link>
@@ -103,15 +104,19 @@
     </Compile>
     <Compile Include="..\Sample\Item1View.xaml.cs">
       <Link>Item1View.xaml.cs</Link>
+	  <DependentUpon>Item1View.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\Sample\Item2View.xaml.cs">
       <Link>Item2View.xaml.cs</Link>
+	  <DependentUpon>Item2View.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\Sample\Item3View.xaml.cs">
       <Link>Item3View.xaml.cs</Link>
+	  <DependentUpon>Item3View.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\Sample\MainPage.xaml.cs">
       <Link>MainPage.xaml.cs</Link>
+	  <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\Sample\MainPageViewModel.cs">
       <Link>MainPageViewModel.cs</Link>
@@ -121,9 +126,11 @@
     </Compile>
     <Compile Include="..\Sample\PanoramaPage.xaml.cs">
       <Link>PanoramaPage.xaml.cs</Link>
+	  <DependentUpon>PanoramaPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\Sample\PivotPage.xaml.cs">
       <Link>PivotPage.xaml.cs</Link>
+	  <DependentUpon>PivotPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
