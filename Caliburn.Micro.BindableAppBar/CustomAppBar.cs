@@ -294,6 +294,24 @@ namespace Caliburn.Micro.BindableAppBar {
 
         #endregion
 
+        #region BarOpacity DependencyProperty
+
+        public double BarOpacity
+        {
+            get { return (double)GetValue(BarOpacityProperty); }
+            set { SetValue(BarOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty BarOpacityProperty = 
+            DependencyProperty.Register("BarOpacity", typeof(double), typeof(BindableAppBar), new PropertyMetadata(1.0, BarOpacityChanged));
+
+        private static void BarOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((BindableAppBar)d).ApplicationBar.Opacity = (double)e.NewValue;
+        }
+
+        #endregion
+
         #region IsMenuEnabled DependencyProperty
 
         public bool IsMenuEnabled
@@ -323,11 +341,6 @@ namespace Caliburn.Micro.BindableAppBar {
 
         public double MiniSize {
             get { return ApplicationBar.MiniSize; }
-        }
-
-        public double BarOpacity {
-            get { return ApplicationBar.Opacity; }
-            set { ApplicationBar.Opacity = value; }
         }
        
         public Color BackgroundColor {
