@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 
 namespace Caliburn.Micro.BindableAppBar {
 
@@ -84,63 +83,67 @@ namespace Caliburn.Micro.BindableAppBar {
                 }
             }
 
-            DeferAppBars();
+            HandleDeferLoad();
         }
 
-        private void DeferAppBars() {
+        private void HandleDeferLoad()
+        {
             // Get available children that may have views
             var items = _conductor.GetChildren();
 
-            foreach (var item in items) {
+            // If we're in a Panorama, we defer all appbars to prevent
+            // transition muckup
+            bool panoramaActive = (_panorama != null);
 
-                // Ignore first view, since we want that appbar
-                // If we're in a Panorama, we defer all appbars to prevent
-                // transition muckup
-                if (item != _conductor.ActiveItem || _panorama != null) {
+            foreach (var item in items)
+            {
+                // Disable app bar for other non-active views
+                // We have to do this, otherwise the appbars
+                // will run their Loaded event and assign themselves
+                // to the page, overwriting the first view's appbar
+                var viewAware = item as IViewAware;
 
-                    // Disable app bar for other non-active views
-                    // We have to do this, otherwise the appbars
-                    // will run their Loaded event and assign themselves
-                    // to the page, overwriting the first view's appbar
-                    var viewAware = item as IViewAware;
+                if (viewAware != null)
+                {
+                    var view = viewAware.GetView() as DependencyObject;
+                    bool deferLoad = ((item != _conductor.ActiveItem) || panoramaActive);
+                    if (view != null)
+                    {
+                        SetDeferLoad(view, deferLoad);
+                    }
+                    else
+                    {
 
-                    if (viewAware != null) {
+                        EventHandler<ViewAttachedEventArgs> attachedHandler = null;
 
-                        var view = viewAware.GetView() as DependencyObject;
+                        attachedHandler = (sender, args) =>
+                        {
+                            SetDeferLoad(args.View as DependencyObject, deferLoad);
 
-                        if (view != null) {
-                            DeferAppBars(view);
-                        }
-                        else {
+                            viewAware.ViewAttached -= attachedHandler;
+                        };
 
-                            EventHandler<ViewAttachedEventArgs> attachedHandler = null;
-
-                            attachedHandler = (sender, args) =>
-                                              {
-                                                  DeferAppBars(args.View as DependencyObject);
-
-                                                  viewAware.ViewAttached -= attachedHandler;
-                                              };
-
-                            viewAware.ViewAttached += attachedHandler;
-                        }
+                        viewAware.ViewAttached += attachedHandler;
                     }
                 }
             }
         }
 
-        private void DeferAppBars(DependencyObject view) {
-            
+
+        private void SetDeferLoad(DependencyObject view, bool deferLoad)
+        {
+
             if (view == null) return;
 
             // Get all applicable appbars
             var appbars = view.GetVisualDescendants().OfType<BindableAppBar>();
 
             // Defer initial load of appbars
-            foreach (var appbar in appbars) {
-                appbar.DeferLoad = true;
+            foreach (var appbar in appbars)
+            {
+                appbar.DeferLoad = deferLoad;
 
-                Log.Info("Marked appbar as deferred, ElementName=", appbar.Name);
+                Log.Info("Marked appbar as {0}defered, ElementName={1}", (deferLoad ? String.Empty : "not "), appbar.Name);
             }
         }
 
