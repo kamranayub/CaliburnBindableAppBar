@@ -1,0 +1,41 @@
+﻿<UserControl
+    x:Class="CaliburnBindableAppBar.Item4View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bindableAppBar="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:CaliburnBindableAppBar"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DataContext="{d:DesignInstance viewModels:Item4ViewModel}"
+    d:DesignHeight="480"
+    d:DesignWidth="480"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot">
+        <TextBlock Text="Enjoy the power of dependency properties! :)" />
+
+        <bindableAppBar:BindableAppBar
+            BackgroundColor="{StaticResource PhoneForegroundColor}"
+            BarOpacity="{Binding Opacity}"
+            ForegroundColor="{StaticResource PhoneAccentColor}"
+            IsMenuEnabled="{Binding IsMenuEnabled}">
+
+            <bindableAppBar:BindableAppBarButton
+                x:Name="ChangeMenuState"
+                IconUri="/Icons/ApplicationBar.Refresh.png"
+                Text="menu state" />
+
+            <bindableAppBar:BindableAppBarMenuItem
+                x:Name="IncreaseOpacity"
+                Text="increase opacity" />
+            <bindableAppBar:BindableAppBarMenuItem
+                x:Name="DecreaseOpacity"
+                Text="decrease opacity" />
+
+        </bindableAppBar:BindableAppBar>
+
+    </Grid>
+</UserControl>

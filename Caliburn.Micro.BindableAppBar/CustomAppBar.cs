@@ -192,6 +192,10 @@ namespace Caliburn.Micro.BindableAppBar {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.StateChanged += ApplicationBarStateChanged;
 
+            // Set default value of dependency property to default value of internal app bar's property
+            BackgroundColor = ApplicationBar.BackgroundColor;
+            ForegroundColor = ApplicationBar.ForegroundColor;
+
             Loaded += BindableApplicationBarLoaded;
         }
 
@@ -294,6 +298,86 @@ namespace Caliburn.Micro.BindableAppBar {
 
         #endregion
 
+        #region BarOpacity DependencyProperty
+
+        public double BarOpacity
+        {
+            get { return (double)GetValue(BarOpacityProperty); }
+            set { SetValue(BarOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty BarOpacityProperty = 
+            DependencyProperty.Register("BarOpacity", typeof(double), typeof(BindableAppBar), new PropertyMetadata(1.0, BarOpacityChanged));
+
+        private static void BarOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((BindableAppBar)d).ApplicationBar.Opacity = (double)e.NewValue;
+        }
+
+        #endregion
+
+        #region IsMenuEnabled DependencyProperty
+
+        public bool IsMenuEnabled
+        {
+            get { return (bool)GetValue(IsMenuEnabledProperty); }
+            set { SetValue(IsMenuEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsMenuEnabledProperty =
+            DependencyProperty.Register("IsMenuEnabled", typeof(bool), typeof(BindableAppBar), new PropertyMetadata(true, IsMenuEnabledChanged));
+
+        private static void IsMenuEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((BindableAppBar)d).ApplicationBar.IsMenuEnabled = (bool)e.NewValue;
+        }
+
+        #endregion
+
+        #region BackgroundColor DependencyProperty
+
+        public Color BackgroundColor
+        {
+            get { return (Color)GetValue(BackgroundColorProperty); }
+            set { SetValue(BackgroundColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty BackgroundColorProperty = 
+            DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(BindableAppBar), new PropertyMetadata(BackgroundColorChanged));
+
+        private static void BackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BindableAppBar bab = (BindableAppBar)d;
+            Color value = (Color)e.NewValue;
+
+            bab.ApplicationBar.BackgroundColor = value;
+            bab._selectedBackgroundColor = value;
+        }
+
+        #endregion
+
+        #region ForegroundColor DependencyProperty
+
+        public Color ForegroundColor
+        {
+            get { return (Color)GetValue(ForegroundColorProperty); }
+            set { SetValue(ForegroundColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty ForegroundColorProperty = 
+            DependencyProperty.Register("ForegroundColor", typeof(Color), typeof(BindableAppBar), new PropertyMetadata(ForegroundColorChanged));
+
+        private static void ForegroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BindableAppBar bab = (BindableAppBar) d;
+            Color value = (Color) e.NewValue;
+
+            bab.ApplicationBar.ForegroundColor = value;
+            bab._selectedForegroundColor = value;
+        }
+
+        #endregion
+
         /// <summary>
         /// Whether or not to defer loading, e.g. during Pivot/Panorama where there could be multiple appbars declared
         /// </summary>
@@ -305,33 +389,6 @@ namespace Caliburn.Micro.BindableAppBar {
 
         public double MiniSize {
             get { return ApplicationBar.MiniSize; }
-        }
-
-        public double BarOpacity {
-            get { return ApplicationBar.Opacity; }
-            set { ApplicationBar.Opacity = value; }
-        }
-
-        public bool IsMenuEnabled {
-            get { return ApplicationBar.IsMenuEnabled; }
-            set { ApplicationBar.IsMenuEnabled = true; }
-        }
-       
-        public Color BackgroundColor {
-            get { return ApplicationBar.BackgroundColor; }
-            set { 
-                ApplicationBar.BackgroundColor = value;
-                _selectedBackgroundColor = value;
-            }
-        }
-
-        public Color ForegroundColor {
-            get { return ApplicationBar.ForegroundColor; }
-            set
-            {
-                ApplicationBar.ForegroundColor = value;
-                _selectedForegroundColor = value;
-            }
         }
 
         public IList Buttons {
