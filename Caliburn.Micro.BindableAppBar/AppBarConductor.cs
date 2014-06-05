@@ -148,6 +148,12 @@ namespace Caliburn.Micro.BindableAppBar {
         }
 
         private void PanoramaOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs) {
+            var panoramaItem = _panorama.SelectedItem as PanoramaItem;
+            if (panoramaItem != null) {
+                SyncAppBar(_panorama.SelectedItem as DependencyObject);
+                return;
+            }
+
             var viewAware = _panorama.SelectedItem as IViewAware;
 
             if (viewAware != null) {
