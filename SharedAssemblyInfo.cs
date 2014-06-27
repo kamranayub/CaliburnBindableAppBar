@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Resources;
 
 [assembly: AssemblyTitle("Caliburn.Micro.BindableAppBar")]
-[assembly: AssemblyDescription("A bindable appbar for Caliburn.Micro and Windows Phone 7.1/8")]
+[assembly: AssemblyDescription("A bindable appbar for Caliburn.Micro and Windows Phone 8")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kamran Ayub")]
 [assembly: AssemblyProduct("Caliburn.Micro.BindableAppBar")]
@@ -14,6 +14,6 @@ using System.Resources;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("1.0.5")]
-[assembly: AssemblyFileVersion("1.0.5")]
+[assembly: AssemblyVersion("2.0.0")]
+[assembly: AssemblyFileVersion("2.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
