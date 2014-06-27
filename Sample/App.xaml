@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:CaliburnBindableAppBar" 
-    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro">
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform">
 
     <!--Application Resources-->
     <Application.Resources>

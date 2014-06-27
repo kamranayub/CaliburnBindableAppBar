@@ -14,7 +14,7 @@ namespace CaliburnBindableAppBar {
 
 		public AppBootstrapper()
 		{
-			Start();
+			Initialize();
 		}
 
 		protected override void Configure()
