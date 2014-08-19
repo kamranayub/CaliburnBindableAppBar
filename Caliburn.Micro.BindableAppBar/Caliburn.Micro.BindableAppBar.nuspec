@@ -10,8 +10,7 @@
         <description>$description$</description>
         <copyright>Copyright ©  2013</copyright>
       <releaseNotes>
-        Fix BackgroundColor (#10)
-        Get rid of design-time warnings
+        See README for changes
       </releaseNotes>
     </metadata>
     <files>

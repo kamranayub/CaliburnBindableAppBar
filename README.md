@@ -7,6 +7,12 @@ Licensed under the [MIT license](LICENSE.md).
 
 ## Changelog
 
+* 2.0.0
+    - **REMOVED** support for Windows Phone 7 (use 1.x versions instead)
+    - Update to support Caliburn.Micro 2.0 (thanks @jagui)
+    - Changed `BackgroundColor`, `ForegroundColor`, `BarOpacity`, and `IsMenuEnabled` to DependencyProperties (thanks @belyansky)
+    - Allow syncing appbar in hardcoded Panorama (thanks @matopeto)
+
 * 1.0.5
 	- Fix issue with background/foreground color (#13)
 	- Fix sample WP80 issue with pivot and navigation (#9)
