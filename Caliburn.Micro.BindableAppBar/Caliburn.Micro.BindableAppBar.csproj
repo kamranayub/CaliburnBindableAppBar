@@ -115,6 +115,7 @@
     </Compile>
     <Compile Include="AppBarConductor.cs" />
     <Compile Include="CustomAppBar.cs" />
+    <Compile Include="PanoramaSceen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisualTreeExtensions.cs" />
   </ItemGroup>

@@ -9,11 +9,35 @@ using Microsoft.Phone.Controls;
 
 namespace CaliburnBindableAppBar {
 
-    public class PivotPageViewModel : SampleConductorBase {}
+    public class PivotPageViewModel : Conductor<Screen>.Collection.OneActive
+    {
 
-    public class PanoramaPageViewModel : SampleConductorBase {}
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
 
-    public class SampleConductorBase : Conductor<Screen>.Collection.OneActive {
+            Items.Add(new Item1ViewModel());
+            Items.Add(new Item3ViewModel());
+            Items.Add(new Item2ViewModel() { ShowAppBar = true });
+            Items.Add(new Item2ViewModel());
+            Items.Add(new Item4ViewModel());
+
+            ActivateItem(Items[0]);
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+
+            // Initialize appbar, the views have been attached by this point
+            AppBarConductor.Mixin(this);
+        }
+    }
+
+    // ViewModel collection should be untyped 
+    
+    public class PanoramaPageViewModel : Conductor<object>.Collection.OneActive
+    {
 
         protected override void OnInitialize() {
             base.OnInitialize();
@@ -35,7 +59,10 @@ namespace CaliburnBindableAppBar {
         }
     }
 
-    public class Item1ViewModel : Screen {
+    // Each Panorama VM should inherit from PanoramaScreen which contains fix
+    // http://stackoverflow.com/a/14269667/247257
+    public class Item1ViewModel : PanoramaSceen
+    {
         private bool _showAppBar2;
 
         public Item1ViewModel() {
@@ -60,7 +87,8 @@ namespace CaliburnBindableAppBar {
         }
     }
 
-    public class Item2ViewModel : Screen {
+    public class Item2ViewModel : PanoramaSceen
+    {
         private bool _showAppBar;
 
         public Item2ViewModel() {
@@ -81,13 +109,14 @@ namespace CaliburnBindableAppBar {
         }
     }
 
-    public class Item3ViewModel : Screen {
+    public class Item3ViewModel : PanoramaSceen
+    {
         public Item3ViewModel() {
             base.DisplayName = "appbar3";
         }
     }
 
-    public class Item4ViewModel : Screen
+    public class Item4ViewModel : PanoramaSceen
     {
         private double _opacity = 1.0;
         public double Opacity
