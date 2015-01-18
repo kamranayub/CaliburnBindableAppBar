@@ -8,7 +8,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kamran Ayub")]
 [assembly: AssemblyProduct("Caliburn.Micro.BindableAppBar")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright ©2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
